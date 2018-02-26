@@ -5,8 +5,14 @@
  */
 package com.serviceannuaire.services;
 
+import com.serviceannuaire.models.Connexion;
 import com.serviceannuaire.models.Succursale;
+import com.serviceannuaire.models.SuccursaleDao;
+import java.sql.Connection;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,14 +20,26 @@ import java.util.LinkedList;
  */
 public class SuccursaleService {
 
-    public static LinkedList<Succursale> getParDistance(
+    public static String getParDistance(
             int distance,
             float longitude,
-            float latitude
-    ) {
-        LinkedList<Succursale> liste = new LinkedList<>();
+            float latitude)
+    {
+        List<Succursale> liste = new LinkedList<>();
+        Connection cnx = Connexion.getInstance();
+        Gson gson = new GsonBuilder().create();
 
-        return liste;
+        try {
+            SuccursaleDao dao = new SuccursaleDao();
+            liste = dao.findByDistance(distance, longitude, latitude);
+
+            System.out.println("SUCCURSALES : " + gson.toJson(liste));
+        }
+        catch (ClassNotFoundException ex) {
+            Logger.getLogger(SuccursaleService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return gson.toJson(liste);
     }
 
 }
