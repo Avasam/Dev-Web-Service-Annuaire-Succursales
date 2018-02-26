@@ -16,6 +16,9 @@ public class Succursale {
     private float Longitude;
     private float Lattitude;
 
+    public Succursale() {
+    }
+
     public Succursale(
             int NoEntrepriseQuebec,
             String Nom,
