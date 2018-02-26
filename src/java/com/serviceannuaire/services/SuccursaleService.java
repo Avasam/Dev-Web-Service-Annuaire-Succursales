@@ -5,6 +5,8 @@
  */
 package com.serviceannuaire.services;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.serviceannuaire.models.Connexion;
 import com.serviceannuaire.models.Succursale;
 import com.serviceannuaire.models.SuccursaleDao;
@@ -30,7 +32,7 @@ public class SuccursaleService {
         Gson gson = new GsonBuilder().create();
 
         try {
-            SuccursaleDao dao = new SuccursaleDao();
+            SuccursaleDao dao = new SuccursaleDao(cnx);
             liste = dao.findByDistance(distance, longitude, latitude);
 
             System.out.println("SUCCURSALES : " + gson.toJson(liste));
