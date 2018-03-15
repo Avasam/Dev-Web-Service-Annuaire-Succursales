@@ -5,9 +5,17 @@
  */
 package com.serviceannuaire.services;
 
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+import java.io.IOException;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.serviceannuaire.models.Connexion;
+import com.serviceannuaire.models.GoogleMatrixRequest;
 import com.serviceannuaire.models.Succursale;
 import com.serviceannuaire.models.SuccursaleDao;
 import java.sql.Connection;
@@ -21,23 +29,35 @@ import java.util.logging.Logger;
  * @author Avasam
  */
 public class SuccursaleService {
+    public GoogleMatrixRequest request;
+    public String response;
 
-    public static String getParDistance(
+    public String getParDistance(
             int distance,
-            float longitude,
-            float latitude)
+            float longitude, 
+            float latittude)
     {
         List<Succursale> liste = new LinkedList<>();
         Connection cnx = Connexion.getInstance();
         Gson gson = new GsonBuilder().create();
-
-        try {
+        Gson Matrix;
+        try{
             SuccursaleDao dao = new SuccursaleDao(cnx);
-            liste = dao.findByDistance(distance, longitude, latitude);
-
+            liste = dao.findAll();
+            for (Succursale Succ : liste) {
+                String origin =Float.toString(Succ.getLattitude())+"|"+Float.toString(Succ.getLongitude());
+                String destination = Float.toString(latittude)+"|"+Float.toString(longitude);
+                request = new GoogleMatrixRequest(origin,destination);
+                response = this.request.run();
+                JsonParser parser = new JsonParser();
+                JsonObject o = parser.parse(response).getAsJsonObject();;
+                
+            
+            
+            System.out.println(response);
             System.out.println("SUCCURSALES : " + gson.toJson(liste));
-        }
-        catch (ClassNotFoundException ex) {
+       }
+        catch (IOException ex) {
             Logger.getLogger(SuccursaleService.class.getName()).log(Level.SEVERE, null, ex);
         }
 

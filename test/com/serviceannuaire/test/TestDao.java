@@ -7,9 +7,11 @@ package com.serviceannuaire.test;
  */
 
 
+import com.serviceannuaire.models.GoogleMatrixRequest;
 import com.serviceannuaire.models.Connexion;
 import com.serviceannuaire.models.Succursale;
 import com.serviceannuaire.models.SuccursaleDao;
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,13 +25,14 @@ public class TestDao {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        Connection cnx;
-        cnx = Connexion.getInstance();
-        SuccursaleDao dao = new SuccursaleDao(cnx);
-        List<Succursale> liste = new LinkedList();
-        liste = dao.findAll();       
-        System.out.println(liste.get(0).getNom());
+    public static void main(String[] args) throws IOException {
+        GoogleMatrixRequest request;
+        String Origin = "Vancouver+BC%7CSeattle";
+        String Destination = "San+Francisco%7CVictoria+BC";
+        request = new GoogleMatrixRequest(Origin,Destination);
+        
+        String response = request.run();
+        System.out.println(response);
        
     }
     
