@@ -30,7 +30,7 @@ import java.util.logging.Logger;
  *
  * @author Le Paré
  */
-public class TestDao {
+public class TestDistanceParSuccursale {
 
     /**
      * @param args the command line arguments
@@ -51,9 +51,12 @@ public class TestDao {
                 origin = Float.toString(Succ.getLattitude())+","+Float.toString(Succ.getLongitude());
                 destination = "45.5411394,-73.5765389";
                 request = new GoogleMatrixRequest(origin,destination);
-                response = request.run();               
+                response = request.run();
+                // Reste à trouver comment ittérer dans la chaine json en Java pour etre
+                // capable de get la distance.
                 JsonArray j = new JsonArray();               
                 JsonParser parser = new JsonParser();
+                // Reste à implémenter à trouver comment ittérer dans la chaine json en Java pour etre
                 JsonObject objetReponse = parser.parse(response).getAsJsonObject();
                 JsonObject reponseListe= objetReponse.getAsJsonObject("rows");
                 JsonArray Liste = reponseListe.getAsJsonArray("elements");
