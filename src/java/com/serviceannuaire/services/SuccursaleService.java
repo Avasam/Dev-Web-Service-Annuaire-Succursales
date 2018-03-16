@@ -41,17 +41,20 @@ public class SuccursaleService {
         Connection cnx = Connexion.getInstance();
         Gson gson = new GsonBuilder().create();
         Gson Matrix;
+        String origin ;
+        String destination;
         try{
             SuccursaleDao dao = new SuccursaleDao(cnx);
             liste = dao.findAll();
             for (Succursale Succ : liste) {
-                String origin =Float.toString(Succ.getLattitude())+"|"+Float.toString(Succ.getLongitude());
-                String destination = Float.toString(latittude)+"|"+Float.toString(longitude);
+                origin = Float.toString(Succ.getLattitude())+","+Float.toString(Succ.getLongitude());
+                destination = Float.toString(latittude)+","+Float.toString(longitude);
                 request = new GoogleMatrixRequest(origin,destination);
                 response = this.request.run();
                 JsonParser parser = new JsonParser();
-                JsonObject o = parser.parse(response).getAsJsonObject();;
-                
+                JsonObject o = parser.parse(response).getAsJsonObject();
+                Float dist = o.get("Distance").getAsFloat();
+            }
             
             
             System.out.println(response);
