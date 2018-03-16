@@ -27,21 +27,25 @@ public class SuccursaleService {
             float longitude,
             float latitude)
     {
-        List<Succursale> liste = new LinkedList<>();
+        List<Succursale> listeFromBD = new LinkedList<>();
+        List<Succursale> listeTrimmed = new LinkedList<>();
         Connection cnx = Connexion.getInstance();
         Gson gson = new GsonBuilder().create();
 
         try {
             SuccursaleDao dao = new SuccursaleDao(cnx);
-            liste = dao.findByDistance(distance, longitude, latitude);
+            listeFromBD = dao.findAll();
 
-            System.out.println("SUCCURSALES : " + gson.toJson(liste));
+            // Todo trim la liste recu de la BD en utilisant google, les corrds et distance
+            listeTrimmed = listeFromBD;
+
+            System.out.println("SUCCURSALES : " + gson.toJson(listeTrimmed));
         }
-        catch (ClassNotFoundException ex) {
+        catch (Exception ex) {
             Logger.getLogger(SuccursaleService.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return gson.toJson(liste);
+        return gson.toJson(listeTrimmed);
     }
 
 }
