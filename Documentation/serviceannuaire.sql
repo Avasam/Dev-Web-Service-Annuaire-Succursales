@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Lun 26 Février 2018 à 14:29
+-- Généré le :  Dim 18 Mars 2018 à 00:43
 -- Version du serveur :  5.7.11
 -- Version de PHP :  5.6.18
 
@@ -29,10 +29,17 @@ SET time_zone = "+00:00";
 CREATE TABLE `succursales` (
   `NOENTREPRISEQUEBEC` int(10) NOT NULL,
   `NOM` varchar(100) NOT NULL,
-  `LONGITUDE` float NOT NULL,
-  `LATTITUDE` float NOT NULL,
+  `LONGITUDE` decimal(9,6) NOT NULL,
+  `LATTITUDE` decimal(9,6) NOT NULL,
   `DESCRIPTION` blob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `succursales`
+--
+
+INSERT INTO `succursales` (`NOENTREPRISEQUEBEC`, `NOM`, `LONGITUDE`, `LATTITUDE`, `DESCRIPTION`) VALUES
+(123456789, 'LA bella del torro', '45.540974', '-73.576538', 0x626f626f202a206d616c6d616c);
 
 --
 -- Index pour les tables exportées
