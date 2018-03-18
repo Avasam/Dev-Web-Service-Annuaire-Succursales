@@ -52,19 +52,20 @@ public class TestDistanceParSuccursale {
                 destination = "45.5411394,-73.5765389";
                 request = new GoogleMatrixRequest(origin,destination);
                 response = request.run();
-                // Reste à trouver comment ittérer dans la chaine json en Java pour etre
-                // capable de get la distance.
-                JsonArray j = new JsonArray();               
-                JsonParser parser = new JsonParser();
-                // Reste à implémenter à trouver comment ittérer dans la chaine json en Java pour etre
-                JsonObject objetReponse = parser.parse(response).getAsJsonObject();
-                JsonObject reponseListe= objetReponse.getAsJsonObject("rows");
-                JsonArray Liste = reponseListe.getAsJsonArray("elements");
-                    for (JsonElement l : Liste) {
-                        JsonObject elementsObj = l.getAsJsonObject();
-                        String     distance     = elementsObj.get("distance").getAsString();
-                        System.out.println(distance+"/n");
-                        }
+                System.out.println(response);
+                   /* 
+                    FRANCIS : COURT test pour aller chercher la distance dans la chaine JSON 
+                              Le seul problème est que pour l'instant, la chaine retourne pas celle 
+                              demandeé, donc il y est impossible de trouver la distance car elle n'est pas la (Voir Photo que je t'ai envoyé)
+                              
+                    JsonElement jelement = new JsonParser().parse(response);
+                    JsonObject  jobject = jelement.getAsJsonObject();
+                    jobject = jobject.getAsJsonObject("rows");
+                    JsonArray jarray = jobject.getAsJsonArray("elements");
+                    jobject = jarray.get(0).getAsJsonObject();
+                    String result = jobject.get("distance").getAsString();
+                    System.out.println(result);
+                */
                     
                 }
                 
