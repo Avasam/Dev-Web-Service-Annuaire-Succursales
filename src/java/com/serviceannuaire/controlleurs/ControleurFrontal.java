@@ -35,7 +35,7 @@ public class ControleurFrontal extends HttpServlet {
             throws ServletException, IOException
     {
         response.setContentType("text/html;charset=UTF-8");
-        this.getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+        this.getServletContext().getRequestDispatcher("/index.html").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

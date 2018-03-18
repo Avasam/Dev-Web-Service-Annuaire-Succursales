@@ -37,7 +37,8 @@ public class SuccursaleService {
             float longitude, 
             float latittude)
     {
-        List<Succursale> liste = new LinkedList<>();
+        List<Succursale> listeFromBD = new LinkedList<>();
+        List<Succursale> listeTrimmed = new LinkedList<>();
         Connection cnx = Connexion.getInstance();
         Gson gson = new GsonBuilder().create();
         Gson Matrix;
@@ -46,8 +47,8 @@ public class SuccursaleService {
         try{
             SuccursaleDao dao = new SuccursaleDao(cnx);
             liste = dao.findAll();
-            for (Succursale Succ : liste) {
-                origin = Float.toString(Succ.getLattitude())+","+Float.toString(Succ.getLongitude());
+            for (Succursale succursale : liste) {
+                origin = Float.toString(succursale.getLattitude())+","+Float.toString(succursale.getLongitude());
                 destination = Float.toString(latittude)+","+Float.toString(longitude);
                 request = new GoogleMatrixRequest(origin,destination);
                 response = this.request.run();
@@ -55,16 +56,15 @@ public class SuccursaleService {
                 JsonObject o = parser.parse(response).getAsJsonObject();
                 Float dist = o.get("Distance").getAsFloat();
             }
-            
-            
+
             System.out.println(response);
             System.out.println("SUCCURSALES : " + gson.toJson(liste));
-       }
+        }
         catch (IOException ex) {
             Logger.getLogger(SuccursaleService.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return gson.toJson(liste);
+        return gson.toJson(listeTrimmed);
     }
 
 }
