@@ -5,11 +5,6 @@
  */
 package com.serviceannuaire.services;
 
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import java.io.IOException;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -18,6 +13,7 @@ import com.serviceannuaire.models.Connexion;
 import com.serviceannuaire.models.GoogleMatrixRequest;
 import com.serviceannuaire.models.Succursale;
 import com.serviceannuaire.models.SuccursaleDao;
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,36 +25,37 @@ import java.util.logging.Logger;
  * @author Avasam
  */
 public class SuccursaleService {
-    public GoogleMatrixRequest request;
-    public String response;
+    public GoogleMatrixRequest gMatrixRequest;
+    public String gMatrixResponse;
 
     public String getParDistance(
             int distance,
-            float longitude, 
+            float longitude,
             float latittude)
     {
-        List<Succursale> listeFromBD = new LinkedList<>();
         List<Succursale> listeTrimmed = new LinkedList<>();
         Connection cnx = Connexion.getInstance();
         Gson gson = new GsonBuilder().create();
-        Gson Matrix;
         String origin ;
         String destination;
         try{
             SuccursaleDao dao = new SuccursaleDao(cnx);
-            liste = dao.findAll();
-            for (Succursale succursale : liste) {
+            List<Succursale> listeFromBD = dao.findAll();
+            for (Succursale succursale : listeFromBD) {
                 origin = Float.toString(succursale.getLattitude())+","+Float.toString(succursale.getLongitude());
                 destination = Float.toString(latittude)+","+Float.toString(longitude);
-                request = new GoogleMatrixRequest(origin,destination);
-                response = this.request.run();
+                gMatrixRequest = new GoogleMatrixRequest(origin,destination);
+                gMatrixResponse = this.gMatrixRequest.run();
                 JsonParser parser = new JsonParser();
-                JsonObject o = parser.parse(response).getAsJsonObject();
-                Float dist = o.get("Distance").getAsFloat();
+                JsonObject o = parser.parse(gMatrixResponse).getAsJsonObject();
+                Float distanceRecue = o.get("Distance").getAsFloat();
+                if (distanceRecue <= distance) {
+                    listeTrimmed.add(succursale);
+                }
             }
 
-            System.out.println(response);
-            System.out.println("SUCCURSALES : " + gson.toJson(liste));
+            System.out.println(gMatrixResponse);
+            System.out.println("SUCCURSALES : " + gson.toJson(listeFromBD));
         }
         catch (IOException ex) {
             Logger.getLogger(SuccursaleService.class.getName()).log(Level.SEVERE, null, ex);
@@ -66,5 +63,4 @@ public class SuccursaleService {
 
         return gson.toJson(listeTrimmed);
     }
-
 }

@@ -17,16 +17,16 @@ import java.util.List;
  * @author Avasam
  */
 public class SuccursaleDao {
-    
+
     protected Connection cnx;
-    
+
     public SuccursaleDao(Connection cnx) {
         this.cnx = cnx;
     }
-    
+
     public List<Succursale> findAll() {
         List<Succursale> liste = new LinkedList();
-        
+
         try
         {
            Statement stm = cnx.createStatement();
@@ -46,14 +46,14 @@ public class SuccursaleDao {
         }
         catch(SQLException exp)
         {
-        
+
         }
         return liste;
     }
-    public List<Succursale> findByDistance(int Distance) {
+    /*public List<Succursale> findByDistance(int Distance) {
         List<Succursale> liste = new LinkedList();
-        
-        /*try
+
+        try
         {
            Statement stm = cnx.createStatement();
            ResultSet r = stm.executeQuery("SELECT * FROM Succursales");
@@ -72,9 +72,9 @@ public class SuccursaleDao {
         }
         catch(SQLException exp)
         {
-        
-        }*/
+
+        }
         return liste;
-    }
+    }*/
 
 }
