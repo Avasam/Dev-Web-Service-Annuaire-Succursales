@@ -36,10 +36,19 @@ public class ControleurApi extends HttpServlet {
     {
         response.setContentType("text/html;charset=UTF-8");
         SuccursaleService succ = new SuccursaleService();
-        int distance = Integer.parseInt((String)request.getAttribute("distance"));
-        float longitude = Float.parseFloat((String)request.getAttribute("longitude"));
-        float latitude = Float.parseFloat((String)request.getAttribute("latitude"));
 
+        int distance;
+        float longitude;
+        float latitude;
+        try{
+            distance = Integer.parseInt((String)request.getParameter("distance"));
+            longitude = Float.parseFloat((String)request.getParameter("longitude"));
+            latitude = Float.parseFloat((String)request.getParameter("latitude"));
+        }
+        catch (Exception e) {
+            response.getWriter().write("{\"Error\":\""+e.toString()+"\"}");
+            return;
+        }
         String vue = succ.getParDistance(distance, longitude, latitude);
         response.getWriter().write(vue);
     }

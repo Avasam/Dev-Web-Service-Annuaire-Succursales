@@ -12,5 +12,14 @@ and open the template in the editor.
     </head>
     <body>
         <div>Cette page sert à tester le service d'annuaire de succursales</div>
+        <form action="api/annuaire/succursales">
+            <label>Latitude</label>
+            <input type="number" step="0.000001" name="latitude" id="latitude">
+            <label>Longitude</label>
+            <input type="number" step="0.000001" name="longitude" id="longitude">
+            <label>Distance</label>
+            <input type="number" step="0.000001" name="distance" id="distance">
+            <button type="submit">Envoyer</button>
+        </form>
     </body>
 </html>

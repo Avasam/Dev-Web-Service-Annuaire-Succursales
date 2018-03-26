@@ -32,6 +32,6 @@
     <context-param>
         <description>L'URL de la BD pour les connexions JDBC.</description>
         <param-name>urlBd</param-name>
-        <param-value>jdbc:mysql://localhost/site_questionnaire_tp1_javaweb?user=root&amp;password=root</param-value>
+        <param-value>jdbc:mysql://localhost/tomcat_serviceannuaire?user=monuser&amp;password=mypassword</param-value>
     </context-param>
 </web-app>

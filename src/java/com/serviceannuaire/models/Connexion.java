@@ -7,38 +7,46 @@ import java.sql.SQLException;
  Exemple d'implémentation du patron Singleton.
  */
 public class Connexion {
-	private static Connection cnx;
-	private static String 	url="jdbc:mysql://localhost/ServiceAnnuaire?user=root&password=root&useSSL=false",
-				user = "root", password="root";
-        
+	private static Connection connection;
+	private static String 	url="jdbc:mysql://localhost/tomcat_serviceannuaire?user=monuser&password=mypassword&useSSL=false",
+				user = "monuser",
+                                password="mypassword",
+                                pilote="com.mysql.jdbc.Driver";
+
         private Connexion()
         {
         }
-	public static Connection getInstance()
-	{
-		if (cnx == null)
-			try {
-				if (user.equals(""))
-					cnx = DriverManager.getConnection(url);
-				else
-					cnx = DriverManager.getConnection(url,user,password);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		return cnx;
-	}
+        public static Connection getInstance(){
+            if (connection==null) {
+                try {
+                    Class.forName(pilote);
+                    System.out.println("Avant cnx");
+                    connection = DriverManager.getConnection(url);
+                    if (connection == null)
+                        System.out.println("connection est NULLLLLLLLLLLLLLLLLLLLLLL");
+                    else {
+                        System.out.println("connection est NON NULLLLLLLLLLLLLLLLLLL");
+                    }
+                }
+                catch (ClassNotFoundException | SQLException exp) {
+                    exp.printStackTrace();
+                }
+            }
+            return connection;
+        }
+
 	public static void reinit()
 	{
                 close();
-		cnx = null;
+		connection = null;
 	}
 	public static void close()
 	{
 		try {
-			if (cnx!=null)
+			if (connection!=null)
                         {
-				cnx.close();
-                                cnx = null;
+				connection.close();
+                                connection = null;
                         }
 		} catch (SQLException e) {
 			e.printStackTrace();
