@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Dim 18 Mars 2018 à 00:43
+-- Généré le :  Lun 09 Avril 2018 à 13:18
 -- Version du serveur :  5.7.11
 -- Version de PHP :  5.6.18
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `serviceannuaire`
+-- Base de données :  `tomcat_serviceannuaire`
 --
 
 -- --------------------------------------------------------
@@ -26,6 +26,7 @@ SET time_zone = "+00:00";
 -- Structure de la table `succursales`
 --
 
+DROP TABLE IF EXISTS `succursales`;
 CREATE TABLE `succursales` (
   `NOENTREPRISEQUEBEC` int(10) NOT NULL,
   `NOM` varchar(100) NOT NULL,
@@ -34,6 +35,15 @@ CREATE TABLE `succursales` (
   `DESCRIPTION` blob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- RELATIONS POUR LA TABLE `succursales`:
+--
+
+--
+-- Vider la table avant d'insérer `succursales`
+--
+
+TRUNCATE TABLE `succursales`;
 --
 -- Contenu de la table `succursales`
 --
@@ -54,3 +64,6 @@ ALTER TABLE `succursales`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+CREATE USER 'monuser'@'%' IDENTIFIED BY 'mypassword';
+grant all privileges on `tomcat\_%`.* to 'monuser'@'%';
