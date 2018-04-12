@@ -34,23 +34,23 @@ public class ControleurApi extends HttpServlet {
             HttpServletResponse response)
             throws ServletException, IOException
     {
-        response.setContentType("text/html;charset=UTF-8");
-        SuccursaleService succ = new SuccursaleService();
-
-        int distance;
-        float longitude;
-        float latitude;
         try{
-            distance = Integer.parseInt((String)request.getParameter("distance"));
-            longitude = Float.parseFloat((String)request.getParameter("longitude"));
-            latitude = Float.parseFloat((String)request.getParameter("latitude"));
+            response.setContentType("text/html;charset=UTF-8");
+            SuccursaleService succ = new SuccursaleService();
+
+            String distanceStr = (String)request.getParameter("distance");
+            String longitudeStr = (String)request.getParameter("longitude");
+            String latitudeStr = (String)request.getParameter("latitude");
+            int distance = distanceStr.isEmpty() ? 0 : Integer.parseInt(distanceStr);
+            float longitude = longitudeStr.isEmpty() ? 0 : Float.parseFloat(longitudeStr);
+            float latitude = latitudeStr.isEmpty() ? 0 : Float.parseFloat(latitudeStr);
+
+            String vue = succ.getParDistance(distance, longitude, latitude);
+            response.getWriter().write(vue);
         }
-        catch (Exception e) {
+        catch (IOException | NumberFormatException e) {
             response.getWriter().write("{\"Error\":\""+e.toString()+"\"}");
-            return;
         }
-        String vue = succ.getParDistance(distance, longitude, latitude);
-        response.getWriter().write(vue);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
