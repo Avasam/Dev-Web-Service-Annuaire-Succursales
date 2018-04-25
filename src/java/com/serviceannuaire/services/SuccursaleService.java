@@ -22,6 +22,40 @@ import java.util.logging.Logger;
  */
 public class SuccursaleService {
 
+    public boolean remove(String id)
+    {
+        Connection connection = Connexion.getInstance();
+        boolean succes = false;
+        try{
+            SuccursaleDao dao = new SuccursaleDao(connection);
+            succes = dao.delete(id);
+
+            System.out.println("REMOVE SUCCURSALE ID" + id + ": " + succes);
+        }
+        catch (Exception ex) {
+            Logger.getLogger(SuccursaleService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return succes;
+    }
+    
+    public boolean add(Succursale succursale)
+    {
+        Connection connection = Connexion.getInstance();
+        boolean succes = false;
+        try{
+            SuccursaleDao dao = new SuccursaleDao(connection);
+            succes = dao.CreateOrUpdtate(succursale);
+
+            System.out.println("CREATE OR UPDATE SUCCURSALE " + succursale.toString());
+        }
+        catch (Exception ex) {
+            Logger.getLogger(SuccursaleService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return succes;
+    }
+    
     public String getParDistance(
             int distance,
             float longitude,
