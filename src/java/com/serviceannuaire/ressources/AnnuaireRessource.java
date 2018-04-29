@@ -5,18 +5,21 @@
  */
 package com.serviceannuaire.ressources;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.serviceannuaire.models.Succursale;
 import com.serviceannuaire.services.SuccursaleService;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 /**
  * REST Web Service
@@ -45,38 +48,48 @@ public class AnnuaireRessource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getSuccursales(int distance, float longitude, float latitude) {
-        SuccursaleService succ = new SuccursaleService();
-
-        String listeSuccursale = succ.getParDistance(distance, longitude, latitude);
+        String listeSuccursale = new SuccursaleService().getParDistance(
+                distance,
+                longitude,
+                latitude);
         return Response.ok(listeSuccursale).build();
     }
 
     /**
      * PUT method for updating or creating an instance of AnnuaireRessource
      * @param content representation for the resource
+     * @return
      */
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public void putXml(String content) {
+    public Response putSuccursale(String content) {
+        Succursale succursale;
+        try {
+            succursale = new Gson().fromJson(content, Succursale.class);
+        } catch (JsonSyntaxException ex) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        if (new SuccursaleService().add(succursale)){
+            return Response.status(Response.Status.NO_CONTENT).build();
+        } else {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
     }
-    
+
     /**
      * DELETE method for deleting an instance of AnnuaireRessource
      * @param id
-     * @return 
+     * @return
      */
     @DELETE
-    @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("{id}")
     public Response deleteSuccursale(@PathParam("id")String id) {
-        SuccursaleService succ = new SuccursaleService();
-        
-        if (succ.remove(id)) {
+        if (new SuccursaleService().remove(id)) {
             return Response.ok().build();
         }
         else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        
     }
 }

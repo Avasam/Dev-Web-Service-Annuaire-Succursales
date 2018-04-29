@@ -34,28 +34,30 @@ public class SuccursaleService {
         }
         catch (Exception ex) {
             Logger.getLogger(SuccursaleService.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
         }
 
         return succes;
     }
-    
+
     public boolean add(Succursale succursale)
     {
         Connection connection = Connexion.getInstance();
         boolean succes = false;
         try{
             SuccursaleDao dao = new SuccursaleDao(connection);
-            succes = dao.CreateOrUpdtate(succursale);
+            succes = dao.createOrUpdtate(succursale);
 
             System.out.println("CREATE OR UPDATE SUCCURSALE " + succursale.toString());
         }
         catch (Exception ex) {
             Logger.getLogger(SuccursaleService.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
         }
 
         return succes;
     }
-    
+
     public String getParDistance(
             int distance,
             float longitude,
@@ -82,6 +84,7 @@ public class SuccursaleService {
         }
         catch (Exception ex) {
             Logger.getLogger(SuccursaleService.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
         }
 
         return gson.toJson(listeTrimmed);
