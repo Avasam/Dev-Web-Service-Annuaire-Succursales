@@ -27,8 +27,9 @@ public class SuccursaleService {
         Connection connection = Connexion.getInstance();
         boolean succes = false;
         try{
+            int idInt = Integer.parseInt(id);
             SuccursaleDao dao = new SuccursaleDao(connection);
-            succes = dao.delete(id);
+            succes = dao.delete(idInt);
 
             System.out.println("REMOVE SUCCURSALE ID" + id + ": " + succes);
         }
