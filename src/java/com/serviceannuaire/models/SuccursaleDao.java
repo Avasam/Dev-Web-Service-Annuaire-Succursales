@@ -78,11 +78,19 @@ public class SuccursaleDao {
     public boolean CreateOrUpdtate(Succursale succursale) {
         try 
         {
-            PreparedStatement prepStmt = cnx.prepareStatement("INSERT INTO succursales (`NOENTREPRISEQUEBEC` , `LATTITUDE` , `LONGITUDE`,`DESCRIPTION`) VALUES (?,?,?,?)");
-            prepStmt.setInt(1,succursale.getNoEntrepriseQuebec());
-            prepStmt.setFloat(2,succursale.getLattitude());
-            prepStmt.setFloat(3,succursale.getLongitude());
-            prepStmt.setString(4,succursale.getDescription());
+            String requete ;
+            Succursale succ = findByNoEntrepriseQuebec(succursale.getNoEntrepriseQuebec());
+            if(succ == null){
+                requete = "INSERT INTO succursales (`LATTITUDE` , `LONGITUDE`,`DESCRIPTION`,`NOM`,`NOENTREPRISEQUEBEC`) VALUES (?,?,?,?,?)";
+            }else{
+                requete = "UPDATE succursales SET LATTITUDE = ?,LONGITUDE = ?,DESCRIPTION = ?,NOM = ? WHERE NOENTREPRISEQUEBEC = ?"; 
+            }
+            PreparedStatement prepStmt = cnx.prepareStatement(requete);          
+            prepStmt.setDouble(1,succursale.getLattitude());
+            prepStmt.setDouble(2,succursale.getLongitude());
+            prepStmt.setString(3,succursale.getDescription());
+            prepStmt.setString(4, succursale.getNom());
+            prepStmt.setInt(5,succursale.getNoEntrepriseQuebec());
             int succes = prepStmt.executeUpdate();
             if (succes>0)
             {

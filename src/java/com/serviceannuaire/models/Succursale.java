@@ -13,8 +13,8 @@ public class Succursale {
     private int NoEntrepriseQuebec;
     private String Nom;
     private String Description;
-    private float Longitude;
-    private float Lattitude;
+    private double Longitude;
+    private double Lattitude;
 
     public Succursale() {
     }
@@ -23,8 +23,8 @@ public class Succursale {
             int NoEntrepriseQuebec,
             String Nom,
             String Description,
-            float Longitude,
-            float Lattitude
+            double Longitude,
+            double Lattitude
     ) {
         this.NoEntrepriseQuebec = NoEntrepriseQuebec;
         this.Nom = Nom;
@@ -45,11 +45,11 @@ public class Succursale {
         return Description;
     }
 
-    public float getLongitude() {
+    public double getLongitude() {
         return Longitude;
     }
 
-    public float getLattitude() {
+    public double getLattitude() {
         return Lattitude;
     }
 
@@ -65,11 +65,11 @@ public class Succursale {
         this.Description = Description;
     }
 
-    public void setLongitude(float Longitude) {
+    public void setLongitude(double Longitude) {
         this.Longitude = Longitude;
     }
 
-    public void setLattitude(float Lattitude) {
+    public void setLattitude(double Lattitude) {
         this.Lattitude = Lattitude;
     }
 

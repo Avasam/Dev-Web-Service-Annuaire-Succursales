@@ -8,9 +8,9 @@ import java.sql.SQLException;
  */
 public class Connexion {
 	private static Connection connection;
-	private static String 	url="jdbc:mysql://localhost/tomcat_serviceannuaire?user=monuser&password=mypassword&useSSL=false",
-				user = "monuser",
-                                password="mypassword",
+	private static String 	url="jdbc:mysql://localhost/serviceannuaire?user=root&password=root&useSSL=false",
+				user = "root",
+                                password="root",
                                 pilote="com.mysql.jdbc.Driver";
 
         private Connexion()

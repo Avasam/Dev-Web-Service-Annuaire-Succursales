@@ -23,13 +23,13 @@ public class testPourDao {
         Connection connection = Connexion.getInstance();
         SuccursaleDao dao = new SuccursaleDao(connection);
         Succursale s = new Succursale();
-       /s.setDescription("deeeeeeee");
-        s.setLattitude();
-        s.setLongitude(45,540974);
-        s.setNoEntrepriseQuebec(1111111111);
-        Succursale succes = dao.CreateOrUpdtate(s);
-       
-       // System.out.println(succes);
+        s.setDescription("deeeeeeee");
+        s.setLattitude(45.540974);
+        s.setLongitude(45.540974);
+        s.setNom("CHANGER");
+        s.setNoEntrepriseQuebec(1111111112);
+        boolean succes = dao.CreateOrUpdtate(s);
+       System.out.println(succes);
     }
     
 }

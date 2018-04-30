@@ -47,7 +47,7 @@ public class SuccursaleService {
         boolean succes = false;
         try{
             SuccursaleDao dao = new SuccursaleDao(connection);
-            succes = dao.createOrUpdtate(succursale);
+            succes = dao.CreateOrUpdtate(succursale);
 
             System.out.println("CREATE OR UPDATE SUCCURSALE " + succursale.toString());
         }
