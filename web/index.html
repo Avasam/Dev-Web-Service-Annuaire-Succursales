@@ -12,7 +12,8 @@ and open the template in the editor.
     </head>
     <body>
         <div>Cette page sert à tester le service d'annuaire de succursales</div>
-        <form action="api/annuaire/succursales">
+        <label>@GET</label>
+        <form method="GET" action="api/annuaire/succursales">
             <label>Latitude</label>
             <input
                 required
