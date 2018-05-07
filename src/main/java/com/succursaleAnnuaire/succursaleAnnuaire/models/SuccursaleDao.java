@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.serviceannuaire.models;
+package com.succursaleAnnuaire.succursaleAnnuaire.models;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -51,7 +51,7 @@ public class SuccursaleDao {
         }
         return liste;
     }
-    public Succursale findByNoEntrepriseQuebec(int noEntrQc) {
+    public Succursale find(int noEntrQc) {
         try {
             PreparedStatement stm = cnx.prepareStatement("SELECT * FROM succursales WHERE noentreprisequebec = ? ");
             stm.setInt(1, noEntrQc);
@@ -79,7 +79,7 @@ public class SuccursaleDao {
         try 
         {
             String requete ;
-            Succursale succ = findByNoEntrepriseQuebec(succursale.getNoEntrepriseQuebec());
+            Succursale succ = find(succursale.getNoEntrepriseQuebec());
             if(succ == null){
                 requete = "INSERT INTO succursales (`LATTITUDE` , `LONGITUDE`,`DESCRIPTION`,`NOM`,`NOENTREPRISEQUEBEC`) VALUES (?,?,?,?,?)";
             }else{
@@ -111,7 +111,7 @@ public class SuccursaleDao {
         try {
             PreparedStatement stm = cnx.prepareStatement( "DELETE FROM Succursales WHERE NOENTREPRISEQUEBEC =?");
             stm.setInt(1, noEntrQc);
-            return stm.execute();
+            return stm.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
