@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.serviceannuaire.services;
+package com.succursaleAnnuaire.succursaleAnnuaire.services;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.serviceannuaire.models.Connexion;
-import com.serviceannuaire.models.Succursale;
-import com.serviceannuaire.models.SuccursaleDao;
+import com.succursaleAnnuaire.succursaleAnnuaire.models.Connexion;
+import com.succursaleAnnuaire.succursaleAnnuaire.models.Succursale;
+import com.succursaleAnnuaire.succursaleAnnuaire.models.SuccursaleDao;
 import java.sql.Connection;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,7 +31,7 @@ public class SuccursaleService {
 
             System.out.println("REMOVE SUCCURSALE ID" + id + ": " + succes);
         }
-        catch (Exception ex) {
+        catch (NumberFormatException ex) {
             Logger.getLogger(SuccursaleService.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
@@ -58,37 +56,58 @@ public class SuccursaleService {
 
         return succes;
     }
-
-    public String getParDistance(
-            int distance,
-            float longitude,
-            float latittude)
+    
+    public List getAll()
     {
-        List<Succursale> listeTrimmed = new LinkedList<>();
+        List<Succursale> liste = new LinkedList<>();
         Connection connection = Connexion.getInstance();
-        Gson gson = new GsonBuilder().create();
         try{
             SuccursaleDao dao = new SuccursaleDao(connection);
-            List<Succursale> listeFromBD = dao.findAll();
-            for (Succursale succursale : listeFromBD) {
-                double distanceCalculee = distance(
-                        succursale.getLattitude(),
-                        latittude,
-                        succursale.getLongitude(),
-                        longitude);
-                if (distanceCalculee <= distance) {
-                    listeTrimmed.add(succursale);
-                }
-            }
+            liste = dao.findAll();
 
-            System.out.println("SUCCURSALES : " + gson.toJson(listeFromBD));
+            System.out.println("SUCCURSALES : " + liste);
         }
         catch (Exception ex) {
             Logger.getLogger(SuccursaleService.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
         }
 
-        return gson.toJson(listeTrimmed);
+        return liste;
+    }
+    public Succursale getByNoEntreprise(int id) {
+        Connection connection = Connexion.getInstance();
+        Succursale succursale = new Succursale();
+        try{
+            
+            SuccursaleDao dao = new SuccursaleDao(connection);
+            succursale = dao.find(id);
+
+            System.out.println("SUCCURSALES : " + succursale);
+        }
+        catch (Exception ex) {
+            Logger.getLogger(SuccursaleService.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        }
+        return succursale;
+    }
+    public List getParDistance(
+            int distance,
+            float longitude,
+            float latittude)
+    {
+        List<Succursale> listeTrimmed = new LinkedList<>();
+        List<Succursale> listeFromBD = this.getAll();
+        for (Succursale succursale : listeFromBD) {
+            double distanceCalculee = distance(
+                    succursale.getLattitude(),
+                    latittude,
+                    succursale.getLongitude(),
+                    longitude);
+            if (distanceCalculee <= distance) {
+                listeTrimmed.add(succursale);
+            }
+        }
+        return listeTrimmed;
     }
 
     /**
@@ -128,4 +147,6 @@ public class SuccursaleService {
     public static double distance(double lat1, double lat2, double lon1, double lon2) {
         return distance(lat1, lat2, lon1, lon2, 0, 0);
     }
+
+
 }
