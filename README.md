@@ -38,4 +38,4 @@ Diagramme de Base de Donnée
 Diagramme de séquence  
 ![Diagramme de séquence](Documentation/DiagrammeSéquence.jpg)
 
-Ceci est un projet Maven / Springboot. Toute librairie devrait être déjà inclut. La bonne BD doit être indiquée dans [application.properties](src\main\resources\application.properties) et dans [Connexion.java](src\main\java\com\succursaleAnnuaire\succursaleAnnuaire\models\Connexion.java) où le projet ne démarrera pas.
+Ceci est un projet Maven / Springboot. Toute librairie devrait être déjà inclut. La bonne BD doit être indiquée dans [application.properties](src/main/resources/application.properties) et dans [Connexion.java](src/main/java/com/succursaleAnnuaire/succursaleAnnuaire/models/Connexion.java) où le projet ne démarrera pas.
